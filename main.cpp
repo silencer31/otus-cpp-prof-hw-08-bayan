@@ -1,4 +1,16 @@
+#include <boost/filesystem/operations.hpp>
+#include <boost/asio.hpp>
+#include <boost/core/noncopyable.hpp>
 
+#include <iostream>
+
+#ifdef WIN32
+#define appname "bayan.exe"
+#else
+#define appname "./bayan"
+#endif
+
+namespace ba = boost::asio;
 
 int main(int args_number, char const** args)
 {

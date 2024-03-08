@@ -1,9 +1,16 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.5)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 project(bayan VERSION ${PROJECT_VERSION})
+
+find_package(Boost COMPONENTS REQUIRED system filesystem)
+find_package(Threads)
+
+include_directories(${Boost_INCLUDE_DIR})
+
+add_definitions(-DBOOST_ALL_NO_LIB) # Without this string boost filesystem will not compile.
 
 configure_file(version.h.in version.h)
 
@@ -21,6 +28,7 @@ target_include_directories(lib_bayan
 )
 
 target_link_libraries(bayan PRIVATE
+    ${Boost_LIBRARIES}
     lib_bayan
 )
 
