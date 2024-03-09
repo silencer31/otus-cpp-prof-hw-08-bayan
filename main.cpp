@@ -1,7 +1,9 @@
-#include <boost/filesystem/operations.hpp>
-#include <boost/asio.hpp>
-#include <boost/core/noncopyable.hpp>
+#include "options_reader.h"
 
+#include <boost/any.hpp>
+#include <boost/program_options.hpp>
+
+#include <memory>
 #include <iostream>
 
 #ifdef WIN32
@@ -10,22 +12,14 @@
 #define appname "./bayan"
 #endif
 
-namespace ba = boost::asio;
+//namespace ba = boost::asio;
 
 int main(int args_number, char const** args)
 {
-   
-    if (args_number != 2) {
-        std::cerr << "The number of commands hasn't been passed!" << std::endl;
-        return 1;
-    }
+    const std::unique_ptr<OptionsReader> opt_reader_ptr = std::make_unique<OptionsReader>();
 
-    int commands_number = std::atoi(args[1]);
-
-    if (commands_number == 0) {
-        std::cerr << "The number of commands must be more then 0!" << std::endl;
-        return 1;
-    }
+    const Parameters parameters = opt_reader_ptr->read_arguments(args_number, args);
+    
       
         
     return 0;

@@ -5,8 +5,7 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 project(bayan VERSION ${PROJECT_VERSION})
 
-find_package(Boost COMPONENTS REQUIRED system filesystem)
-find_package(Threads)
+find_package(Boost COMPONENTS REQUIRED program_options system regex filesystem)
 
 include_directories(${Boost_INCLUDE_DIR})
 
@@ -15,7 +14,7 @@ add_definitions(-DBOOST_ALL_NO_LIB) # Without this string boost filesystem will 
 configure_file(version.h.in version.h)
 
 #Main target 
-add_executable(bayan main.cpp)
+add_executable(bayan main.cpp options_reader.cpp)
 add_library(lib_bayan lib.cpp)
 
 set_target_properties(bayan lib_bayan PROPERTIES
