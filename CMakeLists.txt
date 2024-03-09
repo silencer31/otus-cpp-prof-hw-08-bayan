@@ -5,11 +5,15 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 project(bayan VERSION ${PROJECT_VERSION})
 
-find_package(Boost COMPONENTS REQUIRED program_options system regex filesystem)
+find_package(Boost COMPONENTS program_options REQUIRED)
+
+if(NOT Boost_FOUND)
+    message(FATAL_ERROR "Boost Not found")
+endif()
 
 include_directories(${Boost_INCLUDE_DIR})
 
-add_definitions(-DBOOST_ALL_NO_LIB) # Without this string boost filesystem will not compile.
+#add_definitions(-DBOOST_ALL_NO_LIB) # Without this string boost filesystem will not compile.
 
 configure_file(version.h.in version.h)
 
@@ -26,8 +30,7 @@ target_include_directories(lib_bayan
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
-target_link_libraries(bayan PRIVATE
-    ${Boost_LIBRARIES}
+target_link_libraries(bayan PUBLIC Boost::program_options
     lib_bayan
 )
 
