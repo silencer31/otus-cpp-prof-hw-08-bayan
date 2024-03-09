@@ -5,7 +5,7 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 project(bayan VERSION ${PROJECT_VERSION})
 
-find_package(Boost COMPONENTS program_options REQUIRED)
+find_package(Boost COMPONENTS program_options filesystem REQUIRED)
 
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost Not found")
@@ -30,7 +30,8 @@ target_include_directories(lib_bayan
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
-target_link_libraries(bayan PUBLIC ${Boost_LIBRARIES}
+target_link_libraries(bayan PUBLIC
+    ${Boost_LIBRARIES}
     lib_bayan
 )
 

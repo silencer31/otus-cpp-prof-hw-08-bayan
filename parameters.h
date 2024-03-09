@@ -16,4 +16,7 @@ struct Parameters
 	unsigned int block_size{ 1 };	  // Размер блока, которым производится чтения файлов.
 	
 	std::string hash_algorithm;	// Алгоритм хэширования: crc32, md5.
+
+	bool show_help;
+	std::string help_text;
 };

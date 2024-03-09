@@ -3,50 +3,39 @@
 #include <boost/program_options.hpp>
 #include <boost/any.hpp>
 
+#include <sstream>
+
 using namespace std;
 namespace po = boost::program_options;
 
+// https://stackoverflow.com/questions/3897839/how-to-link-c-program-with-boost-using-cmake
+
 Parameters OptionsReader::read_arguments(int argc, const char* argv[])
 {
+    po::options_description desc("File duplicates search utility. Parameters");
     
-
-    po::options_description desc("Allowed options");
-    /*desc.add_options()
-        ("help", "produce help message")
-        ("compression", po::value<int>(), "set compression level")
+    desc.add_options()
+        ("help,h", "produces help message")
+        ("scan_dirs,s",
+            po::value<std::vector<string>>()->default_value(std::vector<std::string>{"."}, ".")->multitoken()->composing(),
+            "Directories to be scanned, can be multiple. Default is current folder.")
         ;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);*/
-    /*
-    if (vm.count("help")) {
-        cout << desc << "\n";
-        return 1;
-    }
+    notify(vm);
 
-    if (vm.count("compression")) {
-        cout << "Compression level was set to "
-            << vm["compression"].as<int>() << ".\n";
-    }
-    else {
-        cout << "Compression level was not set.\n";
-    }*/
+    stringstream help;
+    help << desc << endl;
 
-    /*
-    if (args_number != 2) {
-        std::cerr << "The number of commands hasn't been passed!" << std::endl;
-        return 1;
-    }
+    Parameters parameters;
 
-    int commands_number = std::atoi(args[1]);
+    parameters.help_text = help.str();
+    parameters.show_help = vm.count("help");
 
-    if (commands_number == 0) {
-        std::cerr << "The number of commands must be more then 0!" << std::endl;
-        return 1;
-    }*/
+    parameters.scan_dirs = vm["scan_dirs"].as<vector<string>>();
 
-	Parameters parameters;
+	
 
     return parameters;
 }
