@@ -30,7 +30,7 @@ target_include_directories(lib_bayan
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
-target_link_libraries(bayan PUBLIC Boost::program_options
+target_link_libraries(bayan PUBLIC ${Boost_LIBRARIES}
     lib_bayan
 )
 
