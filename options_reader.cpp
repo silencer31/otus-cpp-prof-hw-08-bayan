@@ -1,5 +1,6 @@
 #include "options_reader.h"
 
+#include <boost/filesystem/operations.hpp>
 #include <boost/program_options.hpp>
 #include <boost/any.hpp>
 
@@ -18,10 +19,10 @@ Parameters OptionsReader::read_arguments(int argc, const char* argv[])
         ("help,h", "Outputs help information")
         ("scan_dirs,s",
             po::value<std::vector<string>>()->default_value(std::vector<std::string>{"."}, ".")->multitoken()->composing(),
-            "Directories to be scanned, can be multiple. Default is current folder.")
+            "Paths to be scanned for file duplicates, can be multiple. Current folder by default.")
         ("exclude_dirs,e",
             po::value<vector<string>>()->multitoken()->composing(),
-            "Directories to be excluded, can be multiple.")
+            "Paths to be excluded from scanning, can be multiple.")
         ("depth,d",
             po::value<unsigned short>()->default_value(0)->notifier([](const unsigned short& value)
                 {
@@ -31,14 +32,12 @@ Parameters OptionsReader::read_arguments(int argc, const char* argv[])
                     };
                     
                     check_value_is_correct(value, possible_values, "depth");
-                    //throw po::validation_error(po::validation_error::invalid_option_value, "depth");
                 }),
             "Scan depth, 1 - all directories, 0 - current folder only. Default value is 0.")
         ("min_size,m",
             po::value<int>()->default_value(1)->notifier([](const int& value)
                 {
                     check_value_is_not_negative(value, "min_size");
-                    //throw po::validation_error(po::validation_error::invalid_option_value, "option_name");
                 }),
             "Minimum size of the file to be processed, in bytes. Default value is 1.")
         ("file_masks,f",
@@ -48,15 +47,12 @@ Parameters OptionsReader::read_arguments(int argc, const char* argv[])
             po::value<int>()->default_value(256)->notifier([](const int& value)
                 {
                     check_value_is_not_negative(value, "block_size");
-                    //throw po::validation_error(po::validation_error::invalid_option_value, "option_name");
                 }),
             "The size of the block to read the files with, in bytes. Default value is 256.")
         ("algorithm,a",
             po::value<string>()->default_value("crc32")->notifier([](const string& value)
                 {
                     check_value_is_correct(value, { std::string("crc32"), std::string("md5") }, "algorithm");
-                
-                    //throw po::validation_error(po::validation_error::invalid_option_value, "option_name");
                 }),
             "Hash algorithm to hash file blocks. Default value is crc32.")
         ;
@@ -73,9 +69,34 @@ Parameters OptionsReader::read_arguments(int argc, const char* argv[])
     parameters.help_text = help.str();
     parameters.show_help = vm.count("help");
 
-    parameters.scan_dirs = vm["scan_dirs"].as<vector<string>>();
+    if (parameters.show_help) {
+        return parameters;
+    }
 
-	
+    // директории для сканирования
+    parameters.scan_dirs = vm["scan_dirs"].as<vector<string>>();
+       
+    // директории для исключения из сканирования
+    if (vm.count("exclude_dirs")) {
+        parameters.exclude_dirs = vm["exclude_dirs"].as<vector<string>>();
+    }
+
+    // уровень сканирования. 1 - все директории, 0 - только указанная директория без вложенных.
+    parameters.scan_all_dirs = (vm["depth"].as<unsigned short>() == 1);
+
+    // минимальный размер файла
+    parameters.min_file_size = static_cast<unsigned int>(vm["min_size"].as<int>());
+
+    // маски имен файлов разрешенных для сравнения
+    if (vm.count("file_masks")) {
+        parameters.file_masks = vm["file_masks"].as<vector<string>>();
+    }
+
+    // размер блока, которым производится чтения файлов
+    parameters.block_size = static_cast<unsigned int>(vm["block_size"].as<int>());
+
+    // один из имеющихся алгоритмов хэширования: crc32, md5
+    parameters.hash_algorithm = vm["algorithm"].as<string>();
 
     return parameters;
 }
