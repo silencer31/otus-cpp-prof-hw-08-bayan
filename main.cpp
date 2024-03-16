@@ -18,11 +18,15 @@ int main(int args_number, char const** args)
     const Parameters parameters = opt_reader_ptr->read_arguments(args_number, args);
     
     if (parameters.show_help) {
-        std::cout << "Hint: " << parameters.help_text << std::endl;
+        std::cout << parameters.help_text << std::endl;
         return 0;
     }
     
-    std::cout << "Parameters: " << std::endl;
+    for (const auto& value : parameters.scan_dirs ) {
+        std::cout << value << std::endl;
+    }
+
+    //std::cout << "Parameters: " << std::endl;
         
     return 0;
 }
