@@ -2,8 +2,17 @@
 
 #include "parameters.h"
 
+/**
+* @brief Класс реализует чтение параметров программы.
+*/
 class OptionsReader {
 public:
+
+    /**
+    * Прочитать аргументы, с которыми была запущена программа.
+    * @param argc кол-во аргументов.
+    * @param argv аргуметны.
+    */
 	Parameters read_arguments(int argc, const char* argv[]);
 
 private:

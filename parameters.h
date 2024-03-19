@@ -3,6 +3,10 @@
 #include <string>
 #include <vector>
 
+enum class HashAlgoritm {
+	CRC32,
+	MD5
+};
 
 struct Parameters
 {
@@ -16,7 +20,7 @@ struct Parameters
 	unsigned int min_file_size{ 1 };  // Минимальный размер файла.
 	unsigned int block_size{ 1 };	  // Размер блока, которым производится чтения файлов.
 	
-	std::string hash_algorithm;	// Алгоритм хэширования: crc32, md5.
+	HashAlgoritm hash_algorithm{HashAlgoritm::CRC32};	// Алгоритм хэширования: crc32, md5.
 
 	bool show_help{ false };
 	std::string help_text;

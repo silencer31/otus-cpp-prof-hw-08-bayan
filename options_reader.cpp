@@ -9,7 +9,8 @@
 using namespace std;
 namespace po = boost::program_options;
 
-// https://stackoverflow.com/questions/3897839/how-to-link-c-program-with-boost-using-cmake
+const char* crc32_ha = "crc32";
+const char* md5_ha = "md5";
 
 Parameters OptionsReader::read_arguments(int argc, const char* argv[])
 {
@@ -50,9 +51,9 @@ Parameters OptionsReader::read_arguments(int argc, const char* argv[])
                 }),
             "The size of the block to read the files with, in bytes. Default value is 256.")
         ("algorithm,a",
-            po::value<string>()->default_value("crc32")->notifier([](const string& value)
+            po::value<string>()->default_value(crc32_ha)->notifier([](const string& value)
                 {
-                    check_value_is_correct(value, { std::string("crc32"), std::string("md5") }, "algorithm");
+                    check_value_is_correct(value, { std::string(crc32_ha), std::string(md5_ha) }, "algorithm");
                 }),
             "Hash algorithm to hash file blocks. Default value is crc32.")
         ;
@@ -96,7 +97,10 @@ Parameters OptionsReader::read_arguments(int argc, const char* argv[])
     parameters.block_size = static_cast<unsigned int>(vm["block_size"].as<int>());
 
     // один из имеющихся алгоритмов хэширования: crc32, md5
-    parameters.hash_algorithm = vm["algorithm"].as<string>();
+    // По умолчанию crc32
+    if (vm["algorithm"].as<string>() == std::string(md5_ha)) {
+        parameters.hash_algorithm = HashAlgoritm::MD5;
+    }
 
     return parameters;
 }
@@ -120,3 +124,5 @@ void OptionsReader::check_value_is_not_negative(const T& value, std::string opti
         throw po::validation_error(po::validation_error::invalid_option_value, option_name);
     }
 }
+
+// https://stackoverflow.com/questions/3897839/how-to-link-c-program-with-boost-using-cmake
