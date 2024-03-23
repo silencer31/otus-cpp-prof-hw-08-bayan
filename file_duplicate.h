@@ -41,8 +41,8 @@ public:
                 , reader_ptr( reader_shared(nullptr))
             {}
 
-            uivector& operator*();
-            uivector* operator->();
+            ui_vector& operator*();
+            ui_vector* operator->();
 
             Iterator& operator++();
             Iterator  operator++(int);
@@ -57,7 +57,7 @@ public:
             hasher_shared hasher_ptr;
             reader_shared reader_ptr;
             
-            uivector buffer;
+            ui_vector buffer;
         };
 
         Iterator begin() { return Iterator(hashed_blocks, hasher_ptr, reader_ptr); }

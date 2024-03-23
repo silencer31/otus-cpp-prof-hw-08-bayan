@@ -4,8 +4,11 @@
 #include <string>
 #include <list>
 
-using hb_list_vector = std::list<std::vector<uint8_t>>;
-using fp_list = std::list<std::string>;
-using fp_vector = std::vector<std::string>;
+using hb_list_vector = std::list<std::vector<uint8_t>>; // For hash blocks
+using fp_list = std::list<std::string>; // For file paths
 
-using uivector = std::vector<uint8_t>;
+using str_vector = std::vector<std::string>;
+
+using ui_vector = std::vector<uint8_t>;
+
+using str_pait = std::pair<std::string, std::string>;

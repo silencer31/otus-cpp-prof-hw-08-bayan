@@ -1,9 +1,10 @@
 #pragma once
 
+#include "type_aliases.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
-#include <vector>
 
 #include <boost/crc.hpp> 
 #include <boost/uuid/detail/md5.hpp>
@@ -17,7 +18,7 @@ using namespace boost::uuids::detail;
 class BlockHasher
 {
 public:
-    virtual std::vector<uint8_t> hash_block(std::vector<uint8_t> data_block) = 0;
+    virtual ui_vector hash_block(ui_vector data_block) = 0;
 };
 
 /**
@@ -26,7 +27,7 @@ public:
 class HasherCrc32 : public BlockHasher
 {
 public:
-    std::vector<uint8_t> hash_block(std::vector<uint8_t> data_block) override {
+    ui_vector hash_block(ui_vector data_block) override {
         crc_32_type crc32;
 
         crc32.process_bytes(data_block.data(), data_block.size());
@@ -34,7 +35,7 @@ public:
 
         auto byte_array = reinterpret_cast<uint8_t*>(&checksum);
 
-        return std::vector<uint8_t>(byte_array, byte_array + sizeof(checksum));
+        return ui_vector(byte_array, byte_array + sizeof(checksum));
     }
 };
 
@@ -44,7 +45,7 @@ public:
 class HasherMd5 : public BlockHasher
 {
 public:
-    std::vector<uint8_t> hash_block(std::vector<uint8_t> data_block) override {
+    ui_vector hash_block(ui_vector data_block) override {
         md5 hash;
         md5::digest_type digest;
 
@@ -53,7 +54,7 @@ public:
 
         auto byte_array = reinterpret_cast<uint8_t*>(digest);
 
-        return std::vector<uint8_t>(byte_array, byte_array + sizeof(digest));
+        return ui_vector(byte_array, byte_array + sizeof(digest));
     }
 };
 

@@ -1,10 +1,10 @@
 #pragma once
 
+#include "type_aliases.h"
+
 #include <fstream>
-#include <string>
 #include <cstddef>
 #include <cstdint>
-#include <vector>
 
 /**
 * @brief Класс реализует поблочное чтение файла.
@@ -13,7 +13,8 @@ class FileReader
 {
 public:
     FileReader(std::string path, size_t bs)
-        : file_stream(path), block_size(bs) {}
+        : file_stream(path), block_size(bs)
+    {}
 
     /**
     * Узнать размер одного блока.
@@ -33,7 +34,7 @@ public:
     * Прочитать часть файла, ограниченную размером одного блока.
     * @param buffer параметр для приёма прочитанных данных.
     */
-    size_t read_block(std::vector<uint8_t>& buffer) {
+    size_t read_block(ui_vector& buffer) {
         file_stream.read((char*)buffer.data(), block_size);
 
         return (size_t)file_stream.gcount();

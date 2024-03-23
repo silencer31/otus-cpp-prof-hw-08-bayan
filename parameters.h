@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-#include <vector>
+#include "type_aliases.h"
 
 enum class HashAlgoritm {
 	CRC32,
@@ -10,9 +9,9 @@ enum class HashAlgoritm {
 
 struct Parameters
 {
-	std::vector<std::string> scan_dirs;		// Директории для сканирования.
-	std::vector<std::string> exclude_dirs;	// Директории для исключения из сканирования.
-	std::vector<std::string> file_masks;	// Маски имен файлов разрешенных для сравнения.
+	str_vector scan_dirs;	 // Директории для сканирования.
+	str_vector exclude_dirs; // Директории для исключения из сканирования.
+	str_vector file_masks;	 // Маски имен файлов разрешенных для сравнения.
 	
 	// Глубина сканирования. true - все директории, false - только указанная директория без вложенных.
 	bool scan_all_dirs{ false };

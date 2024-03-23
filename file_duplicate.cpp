@@ -1,6 +1,6 @@
 #include "file_duplicate.h"
 
-uivector& FileDuplictate::Iterator::operator*()
+ui_vector& FileDuplictate::Iterator::operator*()
 {
     if (hb_iterator != hashed_blocks.end()) {
         return *hb_iterator;
@@ -23,7 +23,7 @@ uivector& FileDuplictate::Iterator::operator*()
     return *hb_iterator;
 }
 
-uivector* FileDuplictate::Iterator::operator->()
+ui_vector* FileDuplictate::Iterator::operator->()
 {
     return &(*hb_iterator);
 }
