@@ -1,5 +1,6 @@
 #include "bayan_collector.h"
 
+
 void BayanCollector::scan_for_duplicates()
 {
     while (!traversal_ptr->dir_traversed())
@@ -32,8 +33,7 @@ void BayanCollector::scan_for_duplicates()
             }
         }
 
-        if (!is_duplicate)
-        {
+        if (!is_duplicate) {
             file_duplicates.push_back(file);
         }
     }

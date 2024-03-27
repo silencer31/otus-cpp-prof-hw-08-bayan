@@ -1,9 +1,7 @@
 #pragma once
 
-#include "type_aliases.h"
 #include "block_hasher.h"
 #include "file_reader.h"
-
 
 using hasher_shared = std::shared_ptr<BlockHasher>;
 using reader_shared = std::shared_ptr<FileReader>;
@@ -41,23 +39,37 @@ public:
                 , reader_ptr( reader_shared(nullptr))
             {}
 
+            /**
+            * @brief хеш блок.
+            */
             ui_vector& operator*();
+
+            /**
+            * @brief указатель на хеш блок.
+            */
             ui_vector* operator->();
 
+            /**
+            * @brief постфикс
+            */
             Iterator& operator++();
+
+            /**
+            * @brief префикс
+            */
             Iterator  operator++(int);
 
-            friend bool operator== (const Iterator& a, const Iterator& b);
-            friend bool operator!= (const Iterator& a, const Iterator& b);
+            friend bool operator== (const Iterator& li, const Iterator& ri);
+            friend bool operator!= (const Iterator& li, const Iterator& ri);
 
         private:
-            hb_list_vector& hashed_blocks;
-            hb_list_vector::iterator hb_iterator;
+            hb_list_vector& hashed_blocks;          // Ссылка на список с набором хешированных блоков.
+            hb_list_vector::iterator hb_iterator;   // Итератор по коллекции хеш блоков.
 
             hasher_shared hasher_ptr;
             reader_shared reader_ptr;
             
-            ui_vector buffer;
+            ui_vector buffer; // Один хеш блок.
         };
 
         Iterator begin() { return Iterator(hashed_blocks, hasher_ptr, reader_ptr); }
@@ -65,29 +77,29 @@ public:
     }
 
     /**
-    * Получить путь к файлу.
+    * @return путь к файлу.
     */
     std::string get_file_path() const {
         return file_path;
     }
 
     /**
-    * Узнать размер файла.
+    * @return размер файла.
     */
     std::size_t get_file_size() const {
         return file_size;
     }
 
     /**
-    * Добавить дубликат файла в его коллекцию.
-    * @param path путь к дубликату
+    * Добавить путь к дубликату файла в его коллекцию.
+    * @param path путь к дубликату.
     */
     void add_duplicate(const std::string& path) {
         duplicate_paths.push_back(path);
     }
 
     /**
-    * Выполнить поиск дубликатов файлов.
+    * @return список путей к дубликатам.
     */
     fp_list get_duplicates() const {
         return duplicate_paths;

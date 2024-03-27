@@ -17,14 +17,14 @@ public:
     {}
 
     /**
-    * Узнать размер одного блока.
+    * @return размер одного читаемого блока.
     */
     size_t get_block_size() const {
         return block_size;
     }
 
     /**
-    * Узнать, достигнут ли конец файла.
+    * @return достигнут ли конец файла.
     */
     bool file_end_reached() const {
         return file_stream.eof();
@@ -33,6 +33,7 @@ public:
     /**
     * Прочитать часть файла, ограниченную размером одного блока.
     * @param buffer параметр для приёма прочитанных данных.
+    * @return количество прочитанных байт.
     */
     size_t read_block(ui_vector& buffer) {
         file_stream.read((char*)buffer.data(), block_size);

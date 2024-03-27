@@ -1,39 +1,50 @@
 #include "file_duplicate.h"
 
+// Получить хеш блок
 ui_vector& FileDuplictate::Iterator::operator*()
 {
+    // Возвращаем блок, если итератор валиден.
     if (hb_iterator != hashed_blocks.end()) {
         return *hb_iterator;
     }
 
+    // Проверяем, можно ли читать файл.
     if (!reader_ptr || reader_ptr->is_eof()) {
         throw std::range_error("Attempt to read iterator that has reached end.");
     }
 
-    auto read_cont = reader_ptr->read_block(buffer);
-    auto pad_count = reader_ptr->get_block_size() - read_cont;
+    // Читаем блок данных из файла.
+    auto bytes_read = reader_ptr->read_block(buffer);
+    auto delta = reader_ptr->get_block_size() - bytes_read;
 
-    for (size_t i = 0; i < pad_count; i++) {
+    // Если данных меньше, чем размер блока, остаток заполняем нулями.
+    for (size_t i = 0; i < delta; i++) {
         buffer.push_back(static_cast<uint8_t>(0));
     }
 
+    // Хешируем полученный блок данных.
     auto hashed_block = hasher_ptr->hash_block(buffer);
+
+    // Вставляем в коллекцию хеш блоков.
     hb_iterator = hashed_blocks.insert(hb_iterator, hashed_block);
 
     return *hb_iterator;
 }
 
+// Получить указатель на хеш блок
 ui_vector* FileDuplictate::Iterator::operator->()
 {
     return &(*hb_iterator);
 }
 
+// 
 FileDuplictate::Iterator& FileDuplictate::Iterator::operator++()
 {
     hb_iterator++;
     return *this;
 }
 
+// 
 FileDuplictate::Iterator FileDuplictate::Iterator::operator++(int)
 {
     Iterator tmp = *this;
@@ -41,26 +52,22 @@ FileDuplictate::Iterator FileDuplictate::Iterator::operator++(int)
     return tmp;
 }
 
-
-bool operator==(
-    const FileDuplictate::Iterator& a,
-    const FileDuplictate::Iterator& b)
+// 
+bool operator==(const FileDuplictate::Iterator& li, const FileDuplictate::Iterator& ri)
 {
-    if (a.hb_iterator != b.hb_iterator) {
+    if (li.hb_iterator != b.hb_iterator) {
         return false;
     }
 
-    return (a.reader_ptr && !a.reader_ptr->is_eof()) == (b.reader_ptr && !b.reader_ptr->is_eof());
+    return (li.reader_ptr && !li.reader_ptr->is_eof()) == (ri.reader_ptr && !ri.reader_ptr->is_eof());
 }
 
-bool operator!=(
-    const FileDuplictate::Iterator& a,
-    const FileDuplictate::Iterator& b)
+// 
+bool operator!=(const FileDuplictate::Iterator& li, const FileDuplictate::Iterator& ri)
 {
-    if (a.hb_iterator != b.hb_iterator)
-    {
+    if (li.hb_iterator != ri.hb_iterator) {
         return true;
     }
 
-    return (a.reader_ptr && !a.reader_ptr->is_eof()) != (b.reader_ptr && !b.reader_ptr->is_eof());
+    return (li.reader_ptr && !li.reader_ptr->is_eof()) != (ri.reader_ptr && !ri.reader_ptr->is_eof());
 }

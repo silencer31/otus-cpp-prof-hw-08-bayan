@@ -16,6 +16,7 @@
 
 int main(int args_number, char const** args)
 {
+    // Объект для чтения параметров - аргументов программы.
     const std::unique_ptr<OptionsReader> opt_reader_ptr = std::make_unique<OptionsReader>();
 
     // Набор аргументов - параметров программы.
@@ -26,6 +27,7 @@ int main(int args_number, char const** args)
         return 0;
     }
     
+    // Теcтовый вывод прочитанных аргументов.
     for (const auto& value : parameters.scan_dirs ) {
         std::cout << value << std::endl;
     }
@@ -39,21 +41,49 @@ int main(int args_number, char const** args)
         block_hasher_ptr = std::make_shared<HasherCrc32>();
     }
     
-    // Обходчик директорий.
+    // Объект для обхода директорий с целью поиска дубликатов.
     std::unique_ptr<Traversal> directory_traversal_ptr;
-
-    // Рекурсивный обход директорий
-    if (parameters.scan_all_dirs)
-    {
-        // Получает все настройки и хешер
-        directory_traversal_ptr = std::make_unique<DirectoryTraversal<directory_iterator>>(
-            parameters, std::move(block_hasher_ptr));
-    }
-    else // Обход только текущей директории
-    {
+        
+    if (parameters.scan_all_dirs) {
+        // Рекурсивный обход директорий.
         directory_traversal_ptr = std::make_unique<DirectoryTraversal<recursive_directory_iterator>>(
             parameters, std::move(block_hasher_ptr));
     }
+    else { 
+        // Анализ файлов только внутри заданной директории.
+        directory_traversal_ptr = std::make_unique<DirectoryTraversal<directory_iterator>>(
+            parameters, std::move(block_hasher_ptr));
+    }
+
+    // Коллектор дубликатов файлов.
+    BayanCollector collector(std::move(directory_traversal_ptr));
+
+    // Выполняем поиск дубликатов по заданным условиям.
+    collector.scan_for_duplicates(); 
+    /*
+    bool first = true;
+
+    // Цикл по коллекции с файлами, у каждого из которых есть своя коллекция дубликатов.
+    for (const auto& file : searcher.mComparisonFiles)
+    {
+        if (!first)
+        {
+            std::cout << endl;
+        }
+        else
+        {
+            first = false;
+        }
+
+        // Вывод пути к файлу, имеющему дубликаты.
+        std::cout << file.get_path() << std::endl;
+
+        // Вывод всех дубликатов.
+        for (const auto& duplicate : file.get_duplicates())
+        {
+            std::cout << duplicate << std::endl;
+        }
+    }*/
 
     return 0;
 }

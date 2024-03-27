@@ -8,6 +8,10 @@
 
 #include <type_traits>
 
+/**
+* Указывает ли итератор на директорю
+* @param iterator итератор
+*/
 template<typename IteratorType>
 bool is_directory(const IteratorType& iterator)
 {
@@ -28,6 +32,7 @@ public:
     {
         file_masks.reserve(fmasks.size());
 
+        // Подготовка масок для фильтрации файлов.
         for (const auto& glob_mask : fmasks) {
             auto replaced_mask = glob_mask;
             
@@ -36,6 +41,7 @@ public:
                 std::ostream_iterator<char> out_iterator(stream);
                 
                 boost::regex_replace(out_iterator, replaced_mask.begin(), replaced_mask.end(), boost::regex(pair.first), pair.second);
+                
                 replaced_mask = stream.str();
             }
 
@@ -43,7 +49,11 @@ public:
         }
     }
 
-    void filter_exclude_dirs(IteratorType& iterator)
+    /**
+    * 
+    * @param iterator
+    */
+    void filter_excluded_dirs(IteratorType& iterator)
     {
         if (std::find(excluded_dirs.begin(), excluded_dirs.end(), iterator->path().string()) != excluded_dirs.end())
         {
@@ -51,15 +61,22 @@ public:
         }
     }
 
-    bool should_include_file(const IteratorType& iterator)
+    /**
+    * 
+    * @param iterator
+    */
+    bool check_filename_mask(const IteratorType& iterator)
     {
         auto path = iterator->path().string();
 
+        // Проверяем, чтобы размер файла не был меньше минимального значения.
         if (boost::filesystem::file_size(path) < min_file_size) {
             return false;
         }
 
+        // Обрабатываем, если это файл.
         if (boost::filesystem::is_regular_file(path)) {
+            // Проверка имени файла на соответствие заданным маскам.
             for (const auto& mask : file_masks) {
                 boost::smatch what;
                 auto path = iterator->path();
@@ -70,10 +87,15 @@ public:
             }
         }
 
+        // Если маски не заданы, возвращаем true
         return file_masks.empty();
     }
 
 private: // methods
+    /**
+    * 
+    * @param iterator
+    */
     virtual void exclude_directory(IteratorType& iterator) {
         (void)iterator;
     }
@@ -84,7 +106,7 @@ private: // data
 
     std::vector<boost::regex> file_masks;
  
-    // not using map as the order matters
+    // 
     const std::vector<str_pair> glob_to_regex = { {"\\.", "\\\\."}, {"\\*", ".*"}, {"\\?", "."} };    
 };
 
@@ -109,6 +131,9 @@ public:
     {}
 
 private:
+    /**
+    *
+    */
     void exclude_directory(boost::filesystem::recursive_directory_iterator& iterator)
     {
         iterator.disable_recursion_pending();
@@ -122,10 +147,10 @@ template <typename IteratorType>
 class DirectoryTraversal : public Traversal
 {
 public:
-    BoostDirectoryTraversal(const Parameters& parameters, std::shared_ptr<BlockHasher> hasher)
+    BoostDirectoryTraversal(const Parameters& parameters, hasher_shared hasher)
         : scan_dirs(parameters.scan_dirs)
         , block_size(parameters.block_size)
-        , block_hasher(hasher)
+        , hasher_ptr(hasher)
     {
         path_filter = std::make_unique<TraversalExcluder<IteratorType>>(parameters.exclude_dirs, parameters.file_masks, parameters.min_file_size);
 
@@ -137,37 +162,42 @@ public:
 
         files_iterator_end = IteratorType();
 
-        if (is_directory(files_iterator) || !path_filter->should_include_file(files_iterator)) {
+        if (is_directory(files_iterator) || !path_filter->check_filename_mask(files_iterator)) {
             move_to_next_file();
         }
     }
 
-
-
+    /**
+    * @return были ли пройдена директория
+    */
     bool dir_traversed() const override
     {
         return (files_iterator == files_iterator_end) && (scan_dirs_iterator == scan_dirs.cend());
     }
 
+    /**
+    *
+    */
     FileDuplictate get_next_file() override
     {
         std::string path = files_iterator->path().string();
 
         move_to_next_file();
 
-        return FileDuplictate(
-            path,
-            boost::filesystem::file_size(path),
-            std::move(std::make_shared<FileReader>(path, block_size)),
-            block_hasher);
+        return FileDuplictate(path, boost::filesystem::file_size(path),
+                              std::move(std::make_shared<FileReader>(path, block_size)),
+                              hasher_ptr);
     }
 
 private: // methods
+    /**
+    * 
+    */
     void move_to_next_file()
     {
         do {
             if (is_directory(files_iterator)) {
-                path_filter->filter_exclude_dirs(files_iterator);
+                path_filter->filter_excluded_dirs(files_iterator);
             }
 
             ++files_iterator;
@@ -179,13 +209,14 @@ private: // methods
                     files_iterator = IteratorType(*scan_dirs_iterator);
                 }
             }
-        } while (!dir_traversed() && (is_directory(files_iterator) || !path_filter->should_include_file(files_iterator)));
+        } while (!dir_traversed() && (is_directory(files_iterator) || !path_filter->check_filename_mask(files_iterator)));
     }
 
 private: // data
     str_vector scan_dirs;
     size_t block_size;
-    std::shared_ptr<BlockHasher> block_hasher;
+
+    hasher_shared hasher_ptr;
 
     std::unique_ptr<TraversalExcluder<IteratorType>> path_filter;
 

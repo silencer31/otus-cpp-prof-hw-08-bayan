@@ -13,11 +13,16 @@ using namespace boost;
 using namespace boost::uuids::detail;
 
 /**
-* @brief Абстрактный класс реализует интерфейс для хеширования блока данных.
+* @brief Абстрактный класс реализующий интерфейс для хеширования блока данных.
 */
 class BlockHasher
 {
 public:
+    /**
+    * Виртуальный метод хеширования блока данных.
+    * @param data_block блок данных из файла.
+    * @return хеш данных.
+    */
     virtual ui_vector hash_block(ui_vector data_block) = 0;
 };
 
@@ -27,6 +32,11 @@ public:
 class HasherCrc32 : public BlockHasher
 {
 public:
+    /**
+    * Хеширование блока данных алгоритмом CRC32.
+    * @param data_block блок данных из файла.
+    * @return хеш данных.
+    */
     ui_vector hash_block(ui_vector data_block) override {
         crc_32_type crc32;
 
@@ -45,6 +55,11 @@ public:
 class HasherMd5 : public BlockHasher
 {
 public:
+    /**
+    * Хеширование блока данных алгоритмом Md5.
+    * @param data_block блок данных из файла.
+    * @return хеш данных.
+    */
     ui_vector hash_block(ui_vector data_block) override {
         md5 hash;
         md5::digest_type digest;
