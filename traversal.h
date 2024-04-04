@@ -1,6 +1,6 @@
 #pragma once
 
-#include "file_duplicate.h"
+#include "file_with_duplicates.h"
 
 /**
 * @brief јбстрактный класс, реализующий интерфейсы дл€ класса перебора файлов в директории.
@@ -9,14 +9,12 @@ class Traversal
 {
 public:
     /**
-    * ”знать, был ли сделан обход директории.
-    * @return результат проверки.
+    * @return был ли заевршен обход всех заданных директорий.
     */
-    virtual bool dir_traversed() const = 0;
+    virtual bool traverse_finished() const = 0;
 
     /**
-    * ѕолучить следующий файл, имеющий дубликаты.
-    * @return объект, представл€ющий файл, имеющий дубликаты.
+    * @return объект, представл€ющий файл, который может иметь дубликаты или сам быть дубликатом одного из коллекции.
     */
-    virtual FileDuplictate get_next_file() = 0;
+    virtual FileWithDuplicates get_next_file() = 0;
 };

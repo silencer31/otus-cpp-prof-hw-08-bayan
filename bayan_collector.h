@@ -24,5 +24,5 @@ private:
 	std::unique_ptr<Traversal> traversal_ptr;
 
 	// Коллекция уникальных файлов, каждый из которых имеет свою коллекцию дубликатов.
-	std::vector<FileDuplictate> file_duplicates;
+	std::vector<FileWithDuplicates> files_with_duplicates;
 };

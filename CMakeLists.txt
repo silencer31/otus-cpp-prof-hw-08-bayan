@@ -18,7 +18,7 @@ include_directories(${Boost_INCLUDE_DIR})
 configure_file(version.h.in version.h)
 
 #Main target 
-add_executable(bayan main.cpp options_reader.cpp bayan_collector.cpp file_duplicate.cpp)
+add_executable(bayan main.cpp options_reader.cpp bayan_collector.cpp file_with_duplicates.cpp)
 add_library(lib_bayan lib.cpp)
 
 set_target_properties(bayan lib_bayan PROPERTIES

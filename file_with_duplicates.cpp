@@ -1,7 +1,7 @@
-#include "file_duplicate.h"
+#include "file_with_duplicates.h"
 
 // Получить хеш блок
-ui_vector& FileDuplictate::Iterator::operator*()
+ui_vector& FileWithDuplicates::Iterator::operator*()
 {
     // Возвращаем блок, если итератор валиден.
     if (hb_iterator != hashed_blocks.end()) {
@@ -32,20 +32,20 @@ ui_vector& FileDuplictate::Iterator::operator*()
 }
 
 // Получить указатель на хеш блок
-ui_vector* FileDuplictate::Iterator::operator->()
+ui_vector* FileWithDuplicates::Iterator::operator->()
 {
     return &(*hb_iterator);
 }
 
-// 
-FileDuplictate::Iterator& FileDuplictate::Iterator::operator++()
+// префикс
+FileWithDuplicates::Iterator& FileWithDuplicates::Iterator::operator++()
 {
     hb_iterator++;
     return *this;
 }
 
-// 
-FileDuplictate::Iterator FileDuplictate::Iterator::operator++(int)
+// постфикс
+FileWithDuplicates::Iterator FileWithDuplicates::Iterator::operator++(int)
 {
     Iterator tmp = *this;
     ++(*this);
@@ -53,7 +53,7 @@ FileDuplictate::Iterator FileDuplictate::Iterator::operator++(int)
 }
 
 // 
-bool operator==(const FileDuplictate::Iterator& li, const FileDuplictate::Iterator& ri)
+bool operator==(const FileWithDuplicates::Iterator& li, const FileWithDuplicates::Iterator& ri)
 {
     if (li.hb_iterator != b.hb_iterator) {
         return false;
@@ -63,7 +63,7 @@ bool operator==(const FileDuplictate::Iterator& li, const FileDuplictate::Iterat
 }
 
 // 
-bool operator!=(const FileDuplictate::Iterator& li, const FileDuplictate::Iterator& ri)
+bool operator!=(const FileWithDuplicates::Iterator& li, const FileWithDuplicates::Iterator& ri)
 {
     if (li.hb_iterator != ri.hb_iterator) {
         return true;

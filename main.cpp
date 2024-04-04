@@ -12,7 +12,7 @@
 #define appname "./bayan"
 #endif
 
-//namespace ba = boost::asio;
+using namespace boost::filesystem;
 
 int main(int args_number, char const** args)
 {
@@ -41,7 +41,7 @@ int main(int args_number, char const** args)
         block_hasher_ptr = std::make_shared<HasherCrc32>();
     }
     
-    // Объект для обхода директорий с целью поиска дубликатов.
+    // Указатель на объект для обхода директорий с целью поиска дубликатов.
     std::unique_ptr<Traversal> directory_traversal_ptr;
         
     if (parameters.scan_all_dirs) {

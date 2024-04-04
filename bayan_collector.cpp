@@ -3,38 +3,56 @@
 
 void BayanCollector::scan_for_duplicates()
 {
-    while (!traversal_ptr->dir_traversed())
+    while ( !traversal_ptr->traverse_finished())
     {
-        auto file = traversal_ptr->get_next_file();
-        auto is_duplicate = false;
-
-        for (auto& compared_file : file_duplicates) {
+        // Берём следующий файл 
+        auto file_to_analyze = traversal_ptr->get_next_file();
+        
+        bool is_duplicate = false; // Найден ли дубликат.
+        bool blocks_match = true;  // Для сравнения хеш блоков.
+ 
+        // Перебираем файлы, у которых могут быть дубликаты.
+        for (auto& file_from_collection : files_with_duplicates) {
             
-            if (compared_file.get_file_size() != file.get_file_size()) {
+            // Сравниваем только файлы, имеющие одинаковый размер.
+            if (file_from_collection.get_file_size() != file_to_analyze.get_file_size()) {
                 continue;
             }
 
-            bool blocks_match = true;
+            // Итераторы для поблочного сравнения файлов.
+            auto to_analyze_iter = file_to_analyze.begin();
+            auto to_compare_iter = file_from_collection.begin();
 
-            auto blocks_iterator = file.begin();
-            auto compared_iter = compared_file.begin();
+            blocks_match = true; // Предполагаем, что хеш блоки совпадут.
 
-            for (; (blocks_iterator != file.end()) && (compared_iter != compared_file.end()); ++blocks_iterator, ++compared_iter)
+            // Цикл поблочного сравнения хеш блоков.
+            for (; (to_analyze_iter != file_to_analyze.end()) && (to_compare_iter != file_from_collection.end()); ++to_analyze_iter, ++to_compare_iter)
             {
-                if (*blocks_iterator != *compared_iter) {
-                    blocks_match = false;
+                if (*to_analyze_iter != *to_compare_iter) {
+                    blocks_match = false; // Блоки хешей не совпали.
                     break;
                 }
             }
 
-            if ((blocks_iterator == file.end()) && (compared_iter == compared_file.end()) && blocks_match) {
-                is_duplicate = true;
-                compared_file.add_duplicate(file.get_path());
+            // Если блоки не совпали, переходим к следующему файлу.
+            if (!blocks_match) {
+                continue;
             }
+
+            // Разное кол-во хеш блоков.
+            if ((to_analyze_iter != file_to_analyze.end()) || (to_compare_iter != file_from_collection.end())) {
+                continue;
+            }
+            
+            // Все блоки совпали. Запоминаем, что есть дубликат.
+            is_duplicate = true;
+            // Добавляем как дубликат в коллекцию к файлу, у которого могут быть дубликаты.
+            file_from_collection.add_duplicate(file_to_analyze.get_path());
         }
 
+        // Добавляем в коллекцию файлов, у которых могут быть дубликаты.
         if (!is_duplicate) {
-            file_duplicates.push_back(file);
+            files_with_duplicates.push_back(file_to_analyze);
         }
     }
 }
