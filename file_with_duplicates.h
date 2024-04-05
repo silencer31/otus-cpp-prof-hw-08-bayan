@@ -24,7 +24,7 @@ public:
     {
         Iterator(hb_list_vector& blocks, hasher_shared bh_ptr, reader_shared fr_ptr)
             : hashed_blocks(blocks)
-            , hb_iterator(hashed_blocks.begin()),
+            , hb_iterator(hashed_blocks.begin())
             , hasher_ptr(bh_ptr)
             , reader_ptr(fr_ptr)
         {

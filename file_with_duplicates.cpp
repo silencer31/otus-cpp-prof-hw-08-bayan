@@ -9,7 +9,7 @@ ui_vector& FileWithDuplicates::Iterator::operator*()
     }
 
     // Проверяем, можно ли читать файл.
-    if (!reader_ptr || reader_ptr->is_eof()) {
+    if (!reader_ptr || reader_ptr->file_end_reached()) {
         throw std::range_error("Attempt to read iterator that has reached end.");
     }
 
@@ -55,11 +55,11 @@ FileWithDuplicates::Iterator FileWithDuplicates::Iterator::operator++(int)
 // 
 bool operator==(const FileWithDuplicates::Iterator& li, const FileWithDuplicates::Iterator& ri)
 {
-    if (li.hb_iterator != b.hb_iterator) {
+    if (li.hb_iterator != ri.hb_iterator) {
         return false;
     }
 
-    return (li.reader_ptr && !li.reader_ptr->is_eof()) == (ri.reader_ptr && !ri.reader_ptr->is_eof());
+    return (li.reader_ptr && !li.reader_ptr->file_end_reached()) == (ri.reader_ptr && !ri.reader_ptr->file_end_reached());
 }
 
 // 
@@ -69,5 +69,5 @@ bool operator!=(const FileWithDuplicates::Iterator& li, const FileWithDuplicates
         return true;
     }
 
-    return (li.reader_ptr && !li.reader_ptr->is_eof()) != (ri.reader_ptr && !ri.reader_ptr->is_eof());
+    return (li.reader_ptr && !li.reader_ptr->file_end_reached()) != (ri.reader_ptr && !ri.reader_ptr->file_end_reached());
 }

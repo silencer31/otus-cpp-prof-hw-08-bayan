@@ -8,6 +8,7 @@
 class Traversal
 {
 public:
+    virtual ~Traversal() = default;
     /**
     * @return был ли заевршен обход всех заданных директорий.
     */

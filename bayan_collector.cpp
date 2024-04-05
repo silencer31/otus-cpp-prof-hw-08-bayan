@@ -47,7 +47,7 @@ void BayanCollector::scan_for_duplicates()
             // Все блоки совпали. Запоминаем, что есть дубликат.
             is_duplicate = true;
             // Добавляем как дубликат в коллекцию к файлу, у которого могут быть дубликаты.
-            file_from_collection.add_duplicate(file_to_analyze.get_path());
+            file_from_collection.add_duplicate(file_to_analyze.get_file_path());
         }
 
         // Добавляем в коллекцию файлов, у которых могут быть дубликаты.
