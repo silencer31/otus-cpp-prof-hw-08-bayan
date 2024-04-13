@@ -3,8 +3,8 @@
 #include "type_aliases.h"
 
 enum class HashAlgoritm {
-	CRC32,
-	MD5
+	CRC32 = 0,
+	MD5 = 1
 };
 
 struct Parameters

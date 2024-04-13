@@ -107,6 +107,13 @@ public:
         return duplicate_paths;
     }
 
+    /**
+    * @return Отсутствуют ли дубликаты у данного файла.
+    */
+    bool no_duplicates() {
+        return duplicate_paths.empty();
+    }
+
 private:
 	std::string file_path;  // Путь к файлу.
 	size_t file_size;		// Размер файла

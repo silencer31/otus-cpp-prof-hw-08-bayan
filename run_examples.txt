@@ -1,0 +1,34 @@
+-s директории поиска
+-e директории, исключенные из поиска
+-d 0 или 1. 0 - только указанные папки, 1 - указанные папки рекурсивно.
+-m минимальный размер анализируемого файла в байтах.
+-f маски имён файлов
+-a md5 или crc32 хеш алгоритм
+
+// 1 папка
+bayan.exe -s "td1" -e "ed1" -d 0 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+// 1 папка с подпапками рекурсивно
+bayan.exe -s "td3" -e "ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+bayan.exe -s "td4" -e "ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+bayan.exe -s "td5" -e "ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+// 1 папка с подпапками рекурсивно и исключенной папкой
+bayan.exe -s "td6" -e "td6\ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+// 1 пустая папка
+bayan.exe -s "td2" -e "ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+
+// 2 папки
+bayan.exe -s "td1" "td2" -e "ed1" -d 0 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+bayan.exe -s "td1" "td2" -e "ed1" -d 0 -m 10 -f "*.cpp" "*.txt" -b 4 -a "crc32"
+
+// 3 папки
+bayan.exe -s "td1" "td2" "td3" -e "ed1" -d 0 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+// 3 папки рекурсивно
+bayan.exe -s "td1" "td2" "td3" -e "ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"

@@ -4,6 +4,8 @@
 
 #include <memory>
 
+using fwd_list = std::list<FileWithDuplicates>;
+
 /**
 * @brief Класс реализует поиск дубликатов файлов.
 */
@@ -19,10 +21,31 @@ public:
 	*/
 	void scan_for_duplicates();
 
+	/**
+	* @return пуста ли коллекция c файлами, имеющими дубликаты.
+	*/
+	bool nothing_found() {
+		return main_files_collection.empty();
+	}
+
+	/**
+	* @return константный итератор на начало коллекции.
+	*/
+	fwd_list::const_iterator cbegin() {
+		return main_files_collection.cbegin();
+	}
+
+	/**
+	* @return константный итератор на "конец" коллекции.
+	*/
+	fwd_list::const_iterator cend() {
+		return main_files_collection.cend();
+	}
+
 private:
 	// Для обхода файлов в директории.
 	std::unique_ptr<Traversal> traversal_ptr;
 
-	// Коллекция уникальных файлов, каждый из которых имеет свою коллекцию дубликатов.
-	std::vector<FileWithDuplicates> files_with_duplicates;
+	// Коллекция файлов, каждый из которых имеет свою коллекцию дубликатов.
+	fwd_list main_files_collection;
 };

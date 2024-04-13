@@ -28,9 +28,22 @@ int main(int args_number, char const** args)
     }
     
     // Теcтовый вывод прочитанных аргументов.
-    for (const auto& value : parameters.scan_dirs ) {
+    /*
+    for (const auto& value : parameters.scan_dirs) {
         std::cout << value << std::endl;
     }
+    for (const auto& value : parameters.exclude_dirs) {
+        std::cout << value << std::endl;
+    }
+    for (const auto& value : parameters.file_masks) {
+        std::cout << value << std::endl;
+    }
+
+    std::cout << "scan all dirs : " << parameters.scan_all_dirs << std::endl;
+    std::cout << "min_file_size : " << parameters.min_file_size << std::endl;
+    std::cout << "block_size : " << parameters.block_size  << std::endl;
+    std::cout << "hash_algorithm : " << (parameters.hash_algorithm == HashAlgoritm::CRC32) << std::endl;
+    */
 
     // Хэшер блока данных из файла.
     std::shared_ptr<BlockHasher> block_hasher_ptr; 
@@ -57,33 +70,39 @@ int main(int args_number, char const** args)
 
     // Коллектор дубликатов файлов.
     BayanCollector collector(std::move(directory_traversal_ptr));
-
+    
     // Выполняем поиск дубликатов по заданным условиям.
     collector.scan_for_duplicates(); 
-    /*
+    
     bool first = true;
 
+    // Сообщение на случай, если дубликаты не были найдены.
+    if (collector.nothing_found()) {
+        //std::cout << "\nNo duplicates have been found" << std::endl;
+        return 0;
+    }
+
+    //std::cout << "\nScan results:" << std::endl;
+
     // Цикл по коллекции с файлами, у каждого из которых есть своя коллекция дубликатов.
-    for (const auto& file : searcher.mComparisonFiles)
+    for (auto iter = collector.cbegin(); iter != collector.cend(); ++iter)
     {
-        if (!first)
-        {
-            std::cout << endl;
+        if (first) {
+             first = false;
         }
-        else
-        {
-            first = false;
+        else {
+             std::cout << std::endl;
         }
 
         // Вывод пути к файлу, имеющему дубликаты.
-        std::cout << file.get_path() << std::endl;
+        std::cout << iter->get_file_path() << std::endl;
 
         // Вывод всех дубликатов.
-        for (const auto& duplicate : file.get_duplicates())
+        for (const auto& duplicate : iter->get_duplicates())
         {
             std::cout << duplicate << std::endl;
         }
-    }*/
+    }
 
     return 0;
 }
