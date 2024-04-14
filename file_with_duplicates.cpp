@@ -10,7 +10,7 @@ ui_vector& FileWithDuplicates::Iterator::operator*()
 
     // Проверяем, можно ли читать файл.
     if (!reader_ptr || reader_ptr->file_end_reached()) {
-        throw std::range_error("Attempt to read iterator that has reached end.");
+        throw std::range_error("File read range error!");
     }
 
     // Читаем блок данных из файла.

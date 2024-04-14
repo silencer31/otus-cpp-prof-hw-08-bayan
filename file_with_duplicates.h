@@ -20,6 +20,9 @@ public:
         , reader_ptr(std::move(fr_ptr))
     {}
     
+    /**
+    * @brief Структура, позволяющая реализовать поблочное сравнение файлов путём сравнения хеш блоков.
+    */
     struct Iterator
     {
         Iterator(hb_list_vector& blocks, hasher_shared bh_ptr, reader_shared fr_ptr)
@@ -79,14 +82,14 @@ public:
     
 
     /**
-    * @return путь к файлу.
+    * @return Путь к файлу.
     */
     std::string get_file_path() const {
         return file_path;
     }
 
     /**
-    * @return размер файла.
+    * @return Размер файла.
     */
     std::size_t get_file_size() const {
         return file_size;
@@ -101,7 +104,7 @@ public:
     }
 
     /**
-    * @return список путей к дубликатам.
+    * @return Список путей к дубликатам.
     */
     fp_list get_duplicates() const {
         return duplicate_paths;

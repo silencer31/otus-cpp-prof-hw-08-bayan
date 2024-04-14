@@ -3,19 +3,19 @@
 #include "directory_excluder.h"
 
 /**
-* Указывает ли итератор на директорю
-* @param iterator итератор
+* @param iterator итератор обхода по содержимому директории
+* @return Указывает ли итератор на директорю
 */
-template<typename IteratorType>
-bool path_is_directory(const IteratorType& iterator)
+template<typename TraversalIterator>
+bool path_is_directory(const TraversalIterator& iterator)
 {
     return boost::filesystem::is_directory(iterator->path().string());
 }
 
 /**
-* @brief Класс реализует перебор файлов в директории.
+* @brief Класс реализует обход содержимого директории.
 */
-template <typename IteratorType>
+template <typename TraversalIterator>
 class DirectoryTraversal : public Traversal
 {
 public:
@@ -26,7 +26,7 @@ public:
     {
         // Фильтр, убирающий из анализа исключенные папки, файлы недостаточного размера и файлы,
         // имена которых не подходят под заданные маски.
-        path_filter = std::make_unique<TraversalExcluder<IteratorType>>(parameters.exclude_dirs,
+        path_filter = std::make_unique<TraversalExcluder<TraversalIterator>>(parameters.exclude_dirs,
             parameters.file_masks, parameters.min_file_size);
 
         // Итератор по директориям поиска файлов.
@@ -38,15 +38,15 @@ public:
             }
         }
         
-        // Итератор по файлам.
+        // Итератор по содержимому директории.
         files_iterator = scan_dirs_iterator != scan_dirs.cend()
-            ? IteratorType(*scan_dirs_iterator)
-            : IteratorType();
+            ? TraversalIterator(*scan_dirs_iterator)
+            : TraversalIterator();
 
-        files_iterator_end = IteratorType();
+        files_iterator_end = TraversalIterator();
 
         // Если это папка или файл не проходит фильтрацию, переходим к следующему.
-        if (files_iterator != IteratorType{}) {
+        if (files_iterator != TraversalIterator{}) {
             if (path_is_directory(files_iterator) || !path_filter->check_filename_mask(files_iterator)) {
                 move_to_next_file();
             }
@@ -54,7 +54,7 @@ public:
     }
 
     /**
-    * @return были ли проверены все файлы во всех заданных директориях.
+    * @return Были ли проверены все файлы во всех заданных директориях.
     */
     bool traverse_finished() const override
     {
@@ -62,7 +62,7 @@ public:
     }
 
     /**
-    * @return объект, представляющий файл, который может иметь дубликаты или сам быть дубликатом одного из коллекции.
+    * @return Объект, представляющий файл, который может иметь дубликаты или сам быть дубликатом одного из коллекции.
     */
     FileWithDuplicates get_next_file() override
     {
@@ -78,7 +78,7 @@ public:
 
 private: // methods
     /**
-    * @brief пробуем перейти к следующему файлу для анализа.
+    * @brief Пробуем перейти к следующему файлу для анализа.
     */
     void move_to_next_file()
     {
@@ -100,7 +100,7 @@ private: // methods
                 }
 
                 if (scan_dirs_iterator != scan_dirs.cend()) {
-                    files_iterator = IteratorType(*scan_dirs_iterator);
+                    files_iterator = TraversalIterator(*scan_dirs_iterator);
                 }
             }
             
@@ -116,10 +116,10 @@ private: // data
 
     hasher_shared hasher_ptr;
 
-    std::unique_ptr<TraversalExcluder<IteratorType>> path_filter;
+    std::unique_ptr<TraversalExcluder<TraversalIterator>> path_filter;
 
     str_vector::const_iterator scan_dirs_iterator; // Итератор по директориям.
 
-    IteratorType files_iterator; // Итератор по файлам.
-    IteratorType files_iterator_end;
+    TraversalIterator files_iterator; // Итератор по содержимому директории.
+    TraversalIterator files_iterator_end;
 };

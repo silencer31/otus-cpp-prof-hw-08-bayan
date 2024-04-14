@@ -12,11 +12,11 @@
 /**
 * @brief Класс реализует исключение из анализа неподходящих файлов и запрещённых для поиска папок.
 */
-template <typename IteratorType>
-class TraversalExcluderBase
+template <typename TraversalIterator>
+class TraversalFilter
 {
 public:
-    TraversalExcluderBase<IteratorType>(
+    TraversalFilter<TraversalIterator>(
         const str_vector& eds, const str_vector& fmasks, size_t mfs)
         : excluded_dirs(eds)
         , min_file_size(mfs)
@@ -41,10 +41,10 @@ public:
     }
 
     /**
-    * Фильтрация путей, исключенных из поиска дубликатов файлов.
-    * @param iterator итератор на путь
+    * @brief Фильтрация путей, исключенных из поиска дубликатов файлов.
+    * @param iterator Итератор обхода содержимого.
     */
-    void filter_excluded_dirs(IteratorType& iterator)
+    void filter_excluded_dirs(TraversalIterator& iterator)
     {
         // Ищем путь среди списка директорий, исключенных для анализа.
         auto iter = std::find(excluded_dirs.begin(), excluded_dirs.end(), iterator->path().string());
@@ -57,10 +57,11 @@ public:
     }
 
     /**
-    * Проверка размера и имени файла.
-    * @param iterator
+    * @brief Проверка размера и имени файла.
+    * @param iterator Итератор обхода содержимого.
+    * @return Подходит ли файл под критерии анализа.
     */
-    bool check_filename_mask(const IteratorType& iterator)
+    bool check_filename_mask(const TraversalIterator& iterator)
     {
         std::string str_path = iterator->path().string();
 
@@ -90,10 +91,10 @@ public:
 
 private: // methods
     /**
-    *
-    * @param iterator
+    * @brief Исключить папку из анализа.
+    * @param iterator Итератор обхода содержимого.
     */
-    virtual void exclude_directory(IteratorType& iterator) {
+    virtual void exclude_directory(TraversalIterator& iterator) {
         (void)iterator;
     }
 
@@ -103,33 +104,36 @@ private: // data
 
     std::vector<boost::regex> file_masks;
 
-    // 
     const std::vector<str_pair> glob_to_regex = { {"\\.", "\\\\."}, {"\\*", ".*"}, {"\\?", "."} };
 };
 
-
-template <typename IteratorType>
-class TraversalExcluder : public TraversalExcluderBase<IteratorType>
+/**
+* @brief Реализация для обхода содержимого в корне папок.
+*/
+template <typename TraversalIterator>
+class TraversalExcluder : public TraversalFilter<TraversalIterator>
 {
 public:
     TraversalExcluder(const str_vector& eds, const str_vector& fmasks, size_t mfs)
-        : TraversalExcluderBase<IteratorType>(eds, fmasks, mfs)
+        : TraversalFilter<TraversalIterator>(eds, fmasks, mfs)
     {}
 };
 
-
+/**
+* @brief Реализация для рекурсивного обхода содержимого папок.
+*/
 template<>
 class TraversalExcluder<boost::filesystem::recursive_directory_iterator>
-    : public TraversalExcluderBase<boost::filesystem::recursive_directory_iterator>
+    : public TraversalFilter<boost::filesystem::recursive_directory_iterator>
 {
 public:
     TraversalExcluder(const str_vector& eds, const str_vector& fmasks, size_t mfs)
-        : TraversalExcluderBase(eds, fmasks, mfs)
+        : TraversalFilter(eds, fmasks, mfs)
     {}
 
 private:
     /**
-    * @brief исключает директорию из анализа
+    * @brief исключает директорию из анализа.
     */
     void exclude_directory(boost::filesystem::recursive_directory_iterator& iterator)
     {

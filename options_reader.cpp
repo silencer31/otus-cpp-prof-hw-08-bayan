@@ -34,28 +34,28 @@ Parameters OptionsReader::read_arguments(int argc, const char* argv[])
                     
                     check_value_is_correct(value, possible_values, "depth");
                 }),
-            "Scan depth, 1 - all directories, 0 - current folder only. Default value is 0.")
+            "Traversal type, 1 - recursive, 0 - only current folder. Default value is 0.")
         ("min_size,m",
             po::value<int>()->default_value(1)->notifier([](const int& value)
                 {
                     check_value_is_not_negative(value, "min_size");
                 }),
-            "Minimum size of the file to be processed, in bytes. Default value is 1.")
+            "Minimum file size for analysis, in bytes. Default value is 1.")
         ("file_masks,f",
             po::value<vector<string>>()->multitoken()->composing(),
-            "Masks for files participating in comparison, case-insensitive.")
+            "Masks for files allowed to compare, case-insensitive.")
         ("block_size,b",
             po::value<int>()->default_value(256)->notifier([](const int& value)
                 {
                     check_value_is_not_negative(value, "block_size");
                 }),
-            "The size of the block to read the files with, in bytes. Default value is 256.")
+            "Block size used to read files, in bytes. Default value is 256.")
         ("algorithm,a",
             po::value<string>()->default_value(crc32_ha)->notifier([](const string& value)
                 {
                     check_value_is_correct(value, { std::string(crc32_ha), std::string(md5_ha) }, "algorithm");
                 }),
-            "Hash algorithm to hash file blocks. Default value is crc32.")
+            "One of two hash algorithms. Can be md5 or crc32. Default value is crc32.")
         ;
 
     po::variables_map vm;

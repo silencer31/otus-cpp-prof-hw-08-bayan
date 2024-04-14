@@ -4,6 +4,7 @@
 
 #include <memory>
 
+// Для основной коллекции файлов, которые могут иметь дубликаты.
 using fwd_list = std::list<FileWithDuplicates>;
 
 /**
@@ -17,7 +18,7 @@ public:
 	{}
 
 	/**
-	* Выполнить поиск дубликатов файлов.
+	* @brief Выполнить поиск дубликатов файлов.
 	*/
 	void scan_for_duplicates();
 
