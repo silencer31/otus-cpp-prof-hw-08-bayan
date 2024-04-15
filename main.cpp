@@ -64,26 +64,26 @@ int main(int args_number, char const** args)
 
     //std::cout << "\nScan results:" << std::endl;
 
-    bool first = true;
-
     // Цикл по коллекции с файлами, у каждого из которых есть своя коллекция дубликатов.
-    for (auto iter = collector.cbegin(); iter != collector.cend(); ++iter)
+    for (auto iter = collector.cbegin(); iter != collector.cend(); )
     {
-        if (first) {
-             first = false;
-        }
-        else {
-             std::cout << std::endl;
-        }
-
         // Вывод пути к файлу, имеющему дубликаты.
         std::cout << iter->get_file_path() << std::endl;
 
-        // Вывод всех дубликатов.
+        // Вывод всех его дубликатов.
         for (const auto& duplicate : iter->get_duplicates())
         {
             std::cout << duplicate << std::endl;
         }
+
+        ++iter;
+
+        if (iter == collector.cend()) {
+            break;
+        }
+
+        // Разделяем разные группы пустой строкой.
+        std::cout << std::endl;
     }
 
     return 0;

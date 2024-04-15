@@ -32,3 +32,9 @@ bayan.exe -s "td1" "td2" "td3" -e "ed1" -d 0 -m 10 -f "*.cpp" "*.txt" -b 4 -a "m
 
 // 3 папки рекурсивно
 bayan.exe -s "td1" "td2" "td3" -e "ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+// 4 папки рекурсивно. 
+bayan.exe -s "td1" "td2" "td3" "td6" -e "td6\ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"
+
+// 5 папок рекурсивно. 
+bayan.exe -s "td1" "td2" "td3" "td4" "td6" -e "td6\ed1" -d 1 -m 10 -f "*.cpp" "*.txt" -b 4 -a "md5"

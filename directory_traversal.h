@@ -48,7 +48,7 @@ public:
         // Если это папка или файл не проходит фильтрацию, переходим к следующему.
         if (files_iterator != TraversalIterator{}) {
             if (path_is_directory(files_iterator) || !path_filter->check_filename_mask(files_iterator)) {
-                move_to_next_file();
+                find_next_file();
             }
         }
     }
@@ -68,7 +68,7 @@ public:
     {
         std::string path = files_iterator->path().string();
         
-        move_to_next_file();
+        find_next_file();
         
         return FileWithDuplicates(path, boost::filesystem::file_size(path),
                                   hasher_ptr,
@@ -80,7 +80,7 @@ private: // methods
     /**
     * @brief Пробуем перейти к следующему файлу для анализа.
     */
-    void move_to_next_file()
+    void find_next_file()
     {
         do {
             // Если это директория, осуществляем проверку, входит ли она в состав исключенных.
@@ -116,7 +116,7 @@ private: // data
 
     hasher_shared hasher_ptr;
 
-    std::unique_ptr<TraversalExcluder<TraversalIterator>> path_filter;
+    std::unique_ptr<TraversalExcluder<TraversalIterator>> path_filter; // Для фильтрации того, что анализировать не будем.
 
     str_vector::const_iterator scan_dirs_iterator; // Итератор по директориям.
 
