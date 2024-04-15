@@ -1,0 +1,5 @@
+<map id="HasherCrc32" name="HasherCrc32">
+<area shape="rect" id="Node000001" title="Êëàññ ðåàëèçóåò crc32 õåøèðîâàíèå." alt="" coords="5,79,103,105"/>
+<area shape="rect" id="Node000002" href="$classBlockHasher.html" title="Àáñòðàêòíûé êëàññ ðåàëèçóþùèé èíòåðôåéñ äëÿ õåøèðîâàíèÿ áëîêà äàííûõ." alt="" coords="6,5,102,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,46,57,79,51,79,51,46"/>
+</map>

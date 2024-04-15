@@ -1,0 +1,20 @@
+<map id="file_reader.h" name="file_reader.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="111,5,202,31"/>
+<area shape="rect" id="Node000002" href="$file__with__duplicates_8h.html" title=" " alt="" coords="84,79,229,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,46,159,79,154,79,154,46"/>
+<area shape="rect" id="Node000003" href="$file__with__duplicates_8cpp.html" title=" " alt="" coords="5,153,164,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="136,117,99,154,95,150,132,114"/>
+<area shape="rect" id="Node000004" href="$traversal_8h.html" title=" " alt="" coords="188,153,269,178"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="181,114,218,150,214,154,177,117"/>
+<area shape="rect" id="Node000005" href="$bayan__collector_8h.html" title=" " alt="" coords="92,226,213,252"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="206,191,167,228,163,224,203,187"/>
+<area shape="rect" id="Node000008" href="$directory__excluder_8h.html" title=" " alt="" coords="237,226,372,252"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="254,187,294,224,290,228,251,191"/>
+<area shape="rect" id="Node000006" href="$bayan__collector_8cpp.html" title=" " alt="" coords="25,300,160,326"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="135,265,105,301,101,298,131,262"/>
+<area shape="rect" id="Node000007" href="$main_8cpp.html" title=" " alt="" coords="215,374,288,399"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="171,263,245,372,241,375,167,266"/>
+<area shape="rect" id="Node000009" href="$directory__traversal_8h.html" title=" " alt="" coords="236,300,373,326"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="307,267,307,300,302,300,302,267"/>
+<area shape="poly" id="edge9_Node000009_Node000007" title=" " alt="" coords="289,340,262,375,258,372,284,336"/>
+</map>

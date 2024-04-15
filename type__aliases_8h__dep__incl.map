@@ -1,0 +1,33 @@
+<map id="type_aliases.h" name="type_aliases.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="226,5,330,31"/>
+<area shape="rect" id="Node000002" href="$block__hasher_8h.html" title=" " alt="" coords="100,79,208,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,41,176,81,174,76,243,37"/>
+<area shape="rect" id="Node000011" href="$file__reader_8h.html" title=" " alt="" coords="233,79,323,105"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="281,46,281,79,275,79,275,46"/>
+<area shape="rect" id="Node000012" href="$parameters_8h.html" title=" " alt="" coords="312,226,409,252"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="307,39,324,57,338,78,352,119,360,161,364,226,358,226,355,161,347,120,333,80,320,60,303,43"/>
+<area shape="rect" id="Node000003" href="$file__with__duplicates_8h.html" title=" " alt="" coords="128,153,273,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="172,116,195,151,190,154,168,119"/>
+<area shape="rect" id="Node000004" href="$file__with__duplicates_8cpp.html" title=" " alt="" coords="5,226,164,252"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="170,189,106,228,103,223,167,184"/>
+<area shape="rect" id="Node000005" href="$traversal_8h.html" title=" " alt="" coords="188,226,269,252"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="213,192,226,225,221,227,208,194"/>
+<area shape="rect" id="Node000006" href="$bayan__collector_8h.html" title=" " alt="" coords="83,300,204,326"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="204,264,159,302,156,298,201,260"/>
+<area shape="rect" id="Node000009" href="$directory__excluder_8h.html" title=" " alt="" coords="228,300,363,326"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="252,261,286,298,282,301,248,265"/>
+<area shape="rect" id="Node000007" href="$bayan__collector_8cpp.html" title=" " alt="" coords="16,374,151,399"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="126,339,95,375,91,371,122,336"/>
+<area shape="rect" id="Node000008" href="$main_8cpp.html" title=" " alt="" coords="259,447,332,473"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="163,336,187,367,216,397,247,424,278,445,275,449,244,428,212,401,183,370,158,340"/>
+<area shape="rect" id="Node000010" href="$directory__traversal_8h.html" title=" " alt="" coords="227,374,364,399"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="298,341,298,373,293,373,293,341"/>
+<area shape="poly" id="edge10_Node000010_Node000008" title=" " alt="" coords="298,415,298,447,293,447,293,415"/>
+<area shape="poly" id="edge12_Node000011_Node000003" title=" " alt="" coords="255,117,215,154,212,150,252,114"/>
+<area shape="poly" id="edge14_Node000012_Node000009" title=" " alt="" coords="342,265,308,301,304,298,338,261"/>
+<area shape="rect" id="Node000013" href="$options__reader_8h.html" title=" " alt="" coords="386,300,503,326"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="388,260,432,298,429,302,384,264"/>
+<area shape="poly" id="edge16_Node000013_Node000008" title=" " alt="" coords="430,340,407,370,378,401,346,428,316,449,313,445,343,424,375,397,403,367,426,337"/>
+<area shape="rect" id="Node000014" href="$options__reader_8cpp.html" title=" " alt="" coords="439,374,570,399"/>
+<area shape="poly" id="edge17_Node000013_Node000014" title=" " alt="" coords="466,336,496,371,492,375,462,339"/>
+</map>

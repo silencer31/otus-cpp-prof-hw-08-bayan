@@ -1,0 +1,7 @@
+<map id="BlockHasher" name="BlockHasher">
+<area shape="rect" id="Node000001" title="Àáñòðàêòíûé êëàññ ðåàëèçóþùèé èíòåðôåéñ äëÿ õåøèðîâàíèÿ áëîêà äàííûõ." alt="" coords="65,5,161,31"/>
+<area shape="rect" id="Node000002" href="$classHasherCrc32.html" title="Êëàññ ðåàëèçóåò crc32 õåøèðîâàíèå." alt="" coords="5,79,103,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,45,66,80,62,77,91,41"/>
+<area shape="rect" id="Node000003" href="$classHasherMd5.html" title="Êëàññ ðåàëèçóåò md5 õåøèðîâàíèå." alt="" coords="127,79,216,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,41,163,77,159,80,130,45"/>
+</map>
