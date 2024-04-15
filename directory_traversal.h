@@ -33,7 +33,7 @@ public:
         scan_dirs_iterator = scan_dirs.cbegin();
         // Пропускаем папки не содержащие файлов.
         for (; scan_dirs_iterator != scan_dirs.cend(); ++scan_dirs_iterator) {
-            if (!is_empty(*scan_dirs_iterator)) {
+            if (!boost::filesystem::is_empty(*scan_dirs_iterator)) {
                 break;
             }
         }
@@ -94,7 +94,7 @@ private: // methods
                 ++scan_dirs_iterator; // Переход к следующей папке в списке.
                 // Пропускаем папки не содержащие файлов.
                 for (; scan_dirs_iterator != scan_dirs.cend(); ++scan_dirs_iterator) {
-                    if (!is_empty(*scan_dirs_iterator)) {
+                    if (!boost::filesystem::is_empty(*scan_dirs_iterator)) {
                         break;
                     }
                 }
