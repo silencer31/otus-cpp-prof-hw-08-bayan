@@ -2,8 +2,6 @@
 
 #include "traversal.h"
 
-#include <memory>
-
 // Для основной коллекции файлов, которые могут иметь дубликаты.
 using fwd_list = std::list<FileWithDuplicates>;
 

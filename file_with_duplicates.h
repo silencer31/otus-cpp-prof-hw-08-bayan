@@ -3,6 +3,8 @@
 #include "block_hasher.h"
 #include "file_reader.h"
 
+#include <memory>
+
 using hasher_shared = std::shared_ptr<BlockHasher>;
 using reader_shared = std::shared_ptr<FileReader>;
 
