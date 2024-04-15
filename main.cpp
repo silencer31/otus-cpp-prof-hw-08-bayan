@@ -1,5 +1,4 @@
 #include "options_reader.h"
-#include "block_hasher.h"
 #include "directory_traversal.h"
 #include "bayan_collector.h"
 
